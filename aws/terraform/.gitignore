@@ -1,0 +1,9 @@
+# Ignore local terraform runtime files and outputs
+.terraform/
+terraform.tfvars
+*.tfstate
+*.tfstate.backup
+tfplan
+plan.json
+run/
+obsolete/

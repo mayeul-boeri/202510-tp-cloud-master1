@@ -1,0 +1,17 @@
+/.githooks/
+# Ignore Terraform runtime files and secrets
+/aws/terraform/terraform.tfvars
+/aws/terraform/*.tfstate
+/aws/terraform/*.tfstate.backup
+/aws/terraform/.terraform/
+/aws/terraform/tfplan
+/aws/terraform/plan.json
+/aws/terraform/run/
+
+# General
+*.tfvars
+*.tfstate*
+*.tfplan
+plan.json
+.env
+.DS_Store

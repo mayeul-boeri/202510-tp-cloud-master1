@@ -1,0 +1,90 @@
+{
+  "alb_dns_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "tpcloudv2-alb-476460880.us-east-1.elb.amazonaws.com"
+  },
+  "db_endpoint": {
+    "sensitive": false,
+    "type": "string",
+    "value": "tpcloudv2-mysql.ckdae66oi4ka.us-east-1.rds.amazonaws.com"
+  },
+  "db_password": {
+    "sensitive": true,
+    "type": "string",
+    "value": "m7kKGxx1TJN0y50t"
+  },
+  "db_sg_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-0b247b4791656c70a"
+  },
+  "internet_gateway_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "igw-0433499d9fda25035"
+  },
+  "nat_gateway_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "nat-0344128bc2a1da0dd"
+  },
+  "private_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-006ed3de19f0f6ee8",
+      "subnet-0810ab3ca52b5beeb"
+    ]
+  },
+  "public_subnet_ids": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        "string",
+        "string"
+      ]
+    ],
+    "value": [
+      "subnet-09b6a3aa7461803fb",
+      "subnet-04d126fb812d10404"
+    ]
+  },
+  "route_table_private_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "rtb-0814ac2af68791e6e"
+  },
+  "route_table_public_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "rtb-074547108e1e5e861"
+  },
+  "s3_bucket_arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:s3:::tpcloudv2-5c651390"
+  },
+  "s3_bucket_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "tpcloudv2-5c651390"
+  },
+  "vpc_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "vpc-0d3e0a0fe7ee12344"
+  },
+  "web_sg_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "sg-09652d4936cec9b94"
+  }
+}
