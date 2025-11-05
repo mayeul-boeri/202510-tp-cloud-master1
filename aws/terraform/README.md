@@ -7,10 +7,70 @@ Ce dossier contient la configuration Terraform utilisée pour déployer l'infras
 - AWS CLI configuré avec des credentials ayant les droits nécessaires (EC2, IAM, ELB, RDS, S3, Backup, CloudWatch)
 - Un profil/compte AWS valide et une région (par défaut `us-east-1` dans `variables.tf`)
 
+### Vérifier si les prérequis sont déjà installés :
+
+```bash
+terraform -version || true
+aws --version || true
+jq --version || true
+```
+
+### Les insatller si besoin
+
+#### Debian / Ubuntu
+
+```bash
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt update && sudo apt install -y terraform
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+sudo apt install -y jq unzip
+```
+
+#### Fedora / RHEL
+
+```bash
+sudo dnf install -y dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo dnf -y install terraform
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+sudo dnf install -y jq unzip
+```
+
+#### Configuration AWS (quel que soit l'OS)
+
+```bash
+aws configure
+```
+
+### Vérifier les installations
+
+```bash
+terraform -v
+aws --version
+jq --version
+```
+
+*Remarque : si votre distribution ne dispose pas d'outils présentés ici, préférez la méthode d'installation officielle (site HashiCorp pour Terraform, AWS pour AWS CLI). Vous pouvez aussi utiliser des bins précompilés ou des containers pour éviter d'installer localement.*
+
 ### Variables importantes
 - `instance_ami` : (optionnel) AMI à utiliser pour les instances web. Si vide, la config recherche une Amazon Linux 2.
 - `instance_type` : type d'instance EC2 pour les web servers (par défaut `t3.micro`).
 - `asg_min_size`, `asg_desired_capacity`, `asg_max_size` : contrôlent la taille de l'ASG.
+
+Copier le `terraform.tfvars.example` dans `terraform.tfvars` :
+```bash
+cp terraform.tfvars.example terraform.tfvars
+```
+puis le remplir avec vos préférences
 
 ### Procédure d'utilisation (rapide)
 1. Se placer dans `aws/terraform` :
