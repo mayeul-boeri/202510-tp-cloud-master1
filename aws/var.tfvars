@@ -35,4 +35,4 @@ ec2_username = "user"
 ec2_password = "Password123"
 
 #a changer a chaque deployment pour eviter les conflits de nom
-rds_secret_name = "tp-rds-credentials2"
+rds_secret_name = "tp-rds-credentials4"
