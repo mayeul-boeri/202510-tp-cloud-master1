@@ -18,6 +18,26 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 ---
 
 ## Objectifs
+# TP Services Cloud Avancés – Multi-Cloud (AWS, Azure, GCP)
+
+## Suivi du Projet
+
+Ce projet vise à déployer une infrastructure web hautement disponible, sécurisée et résiliente sur AWS, Azure et Google Cloud Platform, en utilisant exclusivement l'Infrastructure as Code (IaC).
+
+---
+
+## Table des matières
+
+- [Objectifs](#objectifs)
+- [Livrables](#livrables)
+- [Todolist détaillée](#todolist-détaillée)
+- [Schéma d'infrastructure](#schéma-dinfrastructure)
+- [Documentation technique](#documentation-technique)
+- [Rapport comparatif](#rapport-comparatif)
+
+---
+
+## Objectifs
 
 - Déployer une architecture réseau multi-cloud (VPC/VNet)
 - Implémenter haute disponibilité et résilience
@@ -54,6 +74,7 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 - [x] IAM rôles, politiques, Identity Center, MFA
 - [x] AWS Backup plan, monitoring CloudWatch, alarmes
 
+
 ### 2. Azure
 
 - [ ] Resource Group, VNet, sous-réseaux, Bastion
@@ -68,15 +89,16 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 
 ### 3. GCP
 
-- [ ] VPC custom, sous-réseaux, Private Google Access
-- [ ] Cloud Router, Cloud NAT
-- [ ] Firewall rules, Cloud Armor (WAF)
-- [ ] Cloud SQL HA, sauvegardes, Secret Manager
-- [ ] Cloud Storage, versioning, lifecycle, KMS
-- [ ] Load Balancer HTTPS, backend, health check, SSL
-- [ ] Managed Instance Group, template, autoscaling
-- [ ] IAM, service accounts, rôles, groupes
-- [ ] Snapshots, backups, monitoring, alertes
+- [x] VPC custom, sous-réseaux, Private Google Access
+- [x] Cloud Router, Cloud NAT
+- [x] Firewall rules, Cloud Armor
+- [x] Cloud SQL HA, sauvegardes, Secret Manager
+- [x] Cloud Storage, versioning, lifecycle, KMS
+- [x] Load Balancer HTTPS, backend, health check, SSL
+- [x] Managed Instance Group, template, autoscaling
+- [x] IAM, service accounts, rôles, groupes
+- [x] Snapshots, backups, monitoring, alertes (partial)
+- [x] Monitoring — notification channel created, CPU alert policy created, uptime check created
 
 ### 4. Documentation & Schémas
 
@@ -93,7 +115,30 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 
 Changements effectués :
 
- - Le README a été mis à jour pour refléter l'état réel du dépôt (implémentation des modules AWS : VPC, security, RDS, S3, ALB, ASG, WAF, IAM, monitoring et backup). Aucune suppression automatique de fichiers n'a été réalisée dans cette étape : le dépôt ne contient pas d'artéfacts explicites hors-README à supprimer (pas de `terraform.tfstate` ni `tfplan` dans l'arborescence analysée). Si vous voulez que je supprime des fichiers spécifiques (ex : workflows CI, fichiers d'état, etc.), dites lesquels et je procèderai après confirmation.
+ - Le README a été mis à jour pour refléter l'état réel du dépôt (implémentation des modules AWS : VPC, security, RDS, S3, ALB, ASG, WAF, IAM, monitoring et backup). Si vous voulez que je supprime des fichiers spécifiques (ex : workflows CI, fichiers d'état, etc.), dites lesquels et je procèderai après confirmation.
+
+ - Ajout initial d'un module GCP minimal `vpc` (déjà présent) et création d'un module `nat` pour Cloud Router / Cloud NAT ; `gcp/terraform/main.tf` a été mis à jour pour invoquer le module `nat`.
+
+ - Pendant la session actuelle :
+   - Création d'un bucket GCS de test (nom unique utilisé pour éviter conflit global).
+   - Création d'un Managed Instance Group + instance template pour backend.
+   - Création d'un Load Balancer (configurée en HTTP si aucun certificat fourni).
+   - Réservation d'une plage IP interne et création d'une connexion Service Networking (VPC peering) pour activer Cloud SQL en IP privée.
+
+
+Recent changes (this session):
+
+ - Implemented Managed Instance Group autoscaling and auto-healing (health checks + region autoscaler) and applied it.
+ - Added Secret Manager integration for Cloud SQL: optional generation of a random DB password, creation of a Secret Manager secret/version, and optional DB user creation. Applied and created the secret.
+ - Added `modules/iam` to create instance and deployer service accounts and granted the instance SA access to the Cloud SQL secret.
+ - Added `modules/kms` scaffold (KeyRing + CryptoKey) and wired it into `modules/storage` (CMEK support). KMS module exists but is disabled by default; can be enabled via `enable_kms`.
+
+Next suggested tasks (from TODO):
+
+ - Enable CMEK (set `enable_kms = true` in your tfvars) to create KeyRing/CryptoKey and optionally encrypt storage buckets.
+ - Implement managed-cert DNS automation for the Load Balancer (outputs and optional waiting helper).
+ - Add monitoring & backup/alerting resources (Stackdriver alerting policies, backup schedules).
+ - Optionally destroy test resources (LB/storage/instance_group) if you want to remove them from the live project.
 
 
 ---
@@ -128,7 +173,11 @@ Changements effectués :
 - **Full IaC** : Toutes les ressources sont déployées via scripts d’automatisation (Terraform, CloudFormation, Bicep)
 - **Suivi** : Cochez chaque étape au fur et à mesure
 - **Schémas** : Ajoutez vos diagrammes dans le dossier `/docs` ou en pièce jointe
-- **Mise à jour automatique** : la checklist ci‑dessus est tenue à jour au fur et à mesure des actions réalisées.
+- **Mise à jour automatique** : la checklist ci‑dessous est tenue à jour au fur et à mesure des actions réalisées.
 
 ---
+
+### Remarques opérationnelles
+
+- Un backend temporaire (`tpcloud-temp-mig`) a été créé pour rendre le load balancer immédiatement fonctionnel — il utilise le template contenant le startup-script qui installe nginx. Quand vous êtes prêt, je peux supprimer ce backend et son autoscaler après avoir appliqué une correction durable sur le MIG principal.
 

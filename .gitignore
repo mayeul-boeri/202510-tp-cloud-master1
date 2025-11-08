@@ -15,3 +15,10 @@
 plan.json
 .env
 .DS_Store
+
+# GCP Terraform local keys and runtime files
+/gcp/terraform/sa-key.json
+/gcp/terraform/*.json
+
+# Ignore local terraform runtime folders
+.terraform/

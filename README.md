@@ -1,22 +1,32 @@
-# TP Services Cloud Avancés – Multi-Cloud (AWS, Azure, GCP)
 
-Ce dépôt contient l'infrastructure as code (Terraform) et les modules pour déployer une plateforme web sur plusieurs clouds. Le travail principal implémenté ici cible AWS (modules dans `aws/terraform`).
+# TP Services Cloud Avancés — Multi‑Cloud (AWS, GCP)
 
-Fichiers clés
-- `PROJECT_TODO.md` : copie du README historique / checklist détaillée.
-- `aws/terraform/` : implementation Terraform pour AWS (VPC, Security, RDS, S3, ALB, ASG, WAF, IAM, monitoring, backup).
+Courte présentation
+- Ce dépôt contient des modules Terraform pour déployer une plateforme web sur AWS et GCP. Les dossiers principaux :
+	- `aws/terraform` — modules et exemples pour AWS
+	- `gcp/terraform` — modules et exemples pour GCP
 
-But rapide
-- Fournir une base reproductible pour déployer une application web hautement disponible sur AWS.
-- Les modules soient modulaires et réutilisables.
+Raccourci pour démarrer
+- Installer Terraform : voir `docs/INSTALL_TERRAFORM.md`.
+- Choisir la plateforme : aller dans `aws/terraform` ou `gcp/terraform`.
+- Exemple rapide (GCP) :
 
-Pour démarrer
-1. Aller dans `aws/terraform` et suivre les instructions du `aws/terraform/README.md` (prérequis, variables, commandes `terraform init/plan/apply`).
-2. Vérifier les outputs (`terraform output`) pour récupérer l'URL de l'ALB, endpoint DB, etc.
+```bash
+# configurer gcloud et le projet
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+export PROJECT_ID=YOUR_PROJECT_ID
 
-Documentation par dossier
-- `aws/terraform/README.md` : détails techniques, composants déployés, requirements et procédure d'utilisation.
+cd gcp/terraform
+terraform init
+terraform plan -var-file=enable-samples.tfvars -var "project_id=$PROJECT_ID"
+terraform apply -var-file=enable-samples.tfvars -var "project_id=$PROJECT_ID"
+```
 
-Contact & contributions
-- Ajoute des issues ou PRs sur ce dépôt pour proposer des améliorations, des corrections d'IaC, ou l'ajout d'AMIs pré‑baked.
+Notes rapides
+- Certains modules (KMS, suppression de comptes de service) exigent des permissions élevées (Owner ou rôles équivalents). Si vous manquez de droits, désactivez `enable_kms` dans les tfvars et réessayez.
+- Les README de chaque module sont disponibles sous `*/modules/*/README.md` — ils sont courts et en français.
+
+Besoin d'aide
+- Ouvrez une issue ou demandez ici ce que vous voulez automatiser ensuite.
 
