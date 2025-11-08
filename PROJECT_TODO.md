@@ -112,35 +112,6 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 - [ ] Monitoring / alertes (configurer CloudWatch + alertes)
 
 ---
-
-Changements effectués :
-
- - Le README a été mis à jour pour refléter l'état réel du dépôt (implémentation des modules AWS : VPC, security, RDS, S3, ALB, ASG, WAF, IAM, monitoring et backup). Si vous voulez que je supprime des fichiers spécifiques (ex : workflows CI, fichiers d'état, etc.), dites lesquels et je procèderai après confirmation.
-
- - Ajout initial d'un module GCP minimal `vpc` (déjà présent) et création d'un module `nat` pour Cloud Router / Cloud NAT ; `gcp/terraform/main.tf` a été mis à jour pour invoquer le module `nat`.
-
- - Pendant la session actuelle :
-   - Création d'un bucket GCS de test (nom unique utilisé pour éviter conflit global).
-   - Création d'un Managed Instance Group + instance template pour backend.
-   - Création d'un Load Balancer (configurée en HTTP si aucun certificat fourni).
-   - Réservation d'une plage IP interne et création d'une connexion Service Networking (VPC peering) pour activer Cloud SQL en IP privée.
-
-
-Recent changes (this session):
-
- - Implemented Managed Instance Group autoscaling and auto-healing (health checks + region autoscaler) and applied it.
- - Added Secret Manager integration for Cloud SQL: optional generation of a random DB password, creation of a Secret Manager secret/version, and optional DB user creation. Applied and created the secret.
- - Added `modules/iam` to create instance and deployer service accounts and granted the instance SA access to the Cloud SQL secret.
- - Added `modules/kms` scaffold (KeyRing + CryptoKey) and wired it into `modules/storage` (CMEK support). KMS module exists but is disabled by default; can be enabled via `enable_kms`.
-
-Next suggested tasks (from TODO):
-
- - Enable CMEK (set `enable_kms = true` in your tfvars) to create KeyRing/CryptoKey and optionally encrypt storage buckets.
- - Implement managed-cert DNS automation for the Load Balancer (outputs and optional waiting helper).
- - Add monitoring & backup/alerting resources (Stackdriver alerting policies, backup schedules).
- - Optionally destroy test resources (LB/storage/instance_group) if you want to remove them from the live project.
-
-
 ---
 
 ## Schéma d’infrastructure
