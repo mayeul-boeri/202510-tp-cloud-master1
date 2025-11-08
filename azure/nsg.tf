@@ -1,7 +1,18 @@
 resource "azurerm_network_security_group" "frontend" {
+  security_rule {
+    name                       = "Allow-AppGw-Inbound"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_ranges    = ["65200-65535"]
+    source_address_prefix      = "Internet"
+    destination_address_prefix = "*"
+  }
   name                = "NSG-Frontend"
   location            = var.location
-  resource_group_name = "RG-TP-Cloud"
+  resource_group_name = azurerm_resource_group.rg_tp_cloud.name
 
   security_rule {
     name                       = "Allow-HTTP"
@@ -11,7 +22,7 @@ resource "azurerm_network_security_group" "frontend" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "80"
-    source_address_prefix      = "AzureApplicationGateway"
+  source_address_prefix      = "ApplicationGateway"
     destination_address_prefix = "*"
   }
 
@@ -23,7 +34,7 @@ resource "azurerm_network_security_group" "frontend" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "443"
-    source_address_prefix      = "AzureApplicationGateway"
+  source_address_prefix      = "ApplicationGateway"
     destination_address_prefix = "*"
   }
 }
@@ -35,9 +46,20 @@ resource "azurerm_subnet_network_security_group_association" "frontend_assoc" {
 
 
 resource "azurerm_network_security_group" "backend" {
+  security_rule {
+    name                       = "Allow-HTTP-From-AppGw"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "80"
+    source_address_prefix      = "ApplicationGateway"
+    destination_address_prefix = "*"
+  }
   name                = "NSG-Backend"
   location            = var.location
-  resource_group_name = "RG-TP-Cloud"
+  resource_group_name = azurerm_resource_group.rg_tp_cloud.name
 
   security_rule {
     name                       = "Allow-HTTP-From-Frontend"
@@ -61,7 +83,7 @@ resource "azurerm_subnet_network_security_group_association" "backend_assoc" {
 resource "azurerm_network_security_group" "database" {
   name                = "NSG-Database"
   location            = var.location
-  resource_group_name = "RG-TP-Cloud"
+  resource_group_name = azurerm_resource_group.rg_tp_cloud.name
 
   security_rule {
     name                       = "Allow-MySQL-From-Backend"
