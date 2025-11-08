@@ -17,7 +17,7 @@ resource "google_sql_database_instance" "this" {
     ip_configuration {
       # Support either private IP (peered VPC) or public IPv4 depending on module input.
       ipv4_enabled = var.use_private_network ? false : true
-      require_ssl  = var.use_private_network ? true  : false
+  ssl_mode     = var.use_private_network ? "REQUIRED" : "DISABLED"
 
       # Only set private_network when requested. When using public IPv4 do not set this.
       private_network = var.use_private_network ? var.network_self_link : null
@@ -45,7 +45,7 @@ resource "google_secret_manager_secret" "db_password" {
   secret_id = "${var.instance_name}-db-password"
 
   replication {
-    auto = {}
+    auto {}
   }
 }
 
