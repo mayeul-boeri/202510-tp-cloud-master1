@@ -2,6 +2,7 @@ resource "azurerm_virtual_network" "tp_vnet" {
     name                = "${var.project_name}-vnet"
     location            = azurerm_resource_group.rg_tp_cloud.location
     resource_group_name = azurerm_resource_group.rg_tp_cloud.name
+    address_space       = [var.vnet_cidr]
 }
 
 resource "azurerm_subnet" "subnets" {
@@ -11,4 +12,3 @@ resource "azurerm_subnet" "subnets" {
     virtual_network_name = azurerm_virtual_network.tp_vnet.name
     address_prefixes    = [each.value.cidr]
 }
-
