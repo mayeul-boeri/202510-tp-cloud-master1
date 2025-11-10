@@ -67,6 +67,7 @@ Notes rapides
 
 Liens utiles
 
+- Installation de [terraform](https://github.com/mayeul-boeri/202510-tp-cloud-master1/blob/main/docs/INSTALL_TERRAFORM.md)
 - Configuration de [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/configure/?utm_source=chatgpt.com)
 - Configuration de [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli?view=azure-cli-latest&utm_source=chatgpt.com)
 - Configuratin de [GCP CLI](https://cloud.google.com/sdk/docs/configurations?utm_source=chatgpt.com)
@@ -87,4 +88,5 @@ Liens utiles
 - **Full IaC** : Toutes les ressources sont déployées via scripts d’automatisation (Terraform, CloudFormation, Bicep)
 - **Suivi** : Cochez chaque étape au fur et à mesure
 - **Schémas** : Ajoutez vos diagrammes dans le dossier `/docs` ou en pièce jointe
+
 
