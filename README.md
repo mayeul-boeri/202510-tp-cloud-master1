@@ -85,8 +85,7 @@ Liens utiles
 
 ## Notes
 
-- **Full IaC** : Toutes les ressources sont déployées via scripts d’automatisation (Terraform, CloudFormation, Bicep)
-- **Suivi** : Cochez chaque étape au fur et à mesure
-- **Schémas** : Ajoutez vos diagrammes dans le dossier `/docs` ou en pièce jointe
+- **Full IaC** : Toutes les ressources sont déployées via scripts d’automatisation (Terraform)
+
 
 
