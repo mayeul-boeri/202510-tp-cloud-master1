@@ -1,0 +1,66 @@
+/*
+ Example `terraform.tfvars` for gcp/terraform root module.
+
+ Copy this file to `terraform.tfvars` and edit values before running `terraform apply`.
+
+*/
+
+# Project settings
+project_id = "your-project-id"
+region     = "us-central1"
+
+# Optional modules (set to true to enable)
+enable_storage = false
+storage_bucket_name = "your-unique-bucket-name"
+
+enable_load_balancer = false
+load_balancer_name_prefix = "tpcloud-lb"
+load_balancer_bucket_name = "your-unique-backend-bucket"
+load_balancer_ssl_certificates = [] # optional: list of existing ssl certificate self_links
+managed_certificate_domains = []   # optional: list of domains for Google-managed SSL (requires DNS)
+
+enable_instance_group = false
+instance_group_count = 1
+instance_group_machine_type = "e2-micro"
+instance_group_image = "projects/debian-cloud/global/images/family/debian-11"
+enable_autoscaling = false
+autoscaling_min_replicas = 1
+autoscaling_max_replicas = 3
+autoscaling_cpu_target = 0.6
+
+enable_cloud_sql = false
+cloud_sql_instance_name = "tpcloud-db"
+cloud_sql_database_name = "tpcloud"
+cloud_sql_use_private_network = false
+# Example variables for gcp/terraform
+# Copy this file to terraform.tfvars and update values before running terraform
+
+# Required
+project_id = "YOUR_PROJECT_ID"
+
+# Optional: enable storage module
+enable_storage = false
+storage_bucket_name = "tpcloud-assets-your-suffix" # must be globally unique
+
+# Optional: enable load balancer scaffold
+enable_load_balancer = false
+load_balancer_name_prefix = "tpcloud-lb"
+load_balancer_bucket_name = "tpcloud-assets-your-suffix" # or "" to skip backend bucket
+load_balancer_ssl_certificates = []
+
+# Example to enable and apply (do this only when ready):
+# enable_storage = true
+# enable_load_balancer = true
+
+# Optional instance group scaffold
+enable_instance_group = false
+instance_group_count = 1
+instance_group_machine_type = "e2-micro"
+instance_group_image = "projects/debian-cloud/global/images/family/debian-11"
+instance_group_name_prefix = "tpcloud-lb"
+instance_group_enable_autoscaling = false
+instance_group_autoscaling_min_replicas = 1
+instance_group_autoscaling_max_replicas = 3
+instance_group_autoscaling_cpu_target = 0.6
+instance_group_enable_health_check = false
+instance_group_auto_healing_initial_delay = 300

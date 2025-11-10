@@ -10,10 +10,7 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 
 - [Objectifs](#objectifs)
 - [Livrables](#livrables)
-- [Todolist détaillée](#todolist-détaillée)
-- [Schéma d'infrastructure](#schéma-dinfrastructure)
 - [Documentation technique](#documentation-technique)
-- [Rapport comparatif](#rapport-comparatif)
 
 ---
 
@@ -28,74 +25,51 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 - Monitoring et alertes
 - Automatiser tout via IaC (Terraform, CloudFormation, Bicep)
 
----
 
-## Livrables
+# TP Services Cloud Avancés — Multi‑Cloud (AWS, Azure, GCP)
 
-- Scripts IaC pour chaque cloud
-- Schémas d’architecture
-- Documentation technique
-- Rapport comparatif
+Courte présentation
+- Ce dépôt contient des modules Terraform pour déployer une plateforme web sur AWS et GCP. Les dossiers principaux :
+	- `aws` - modules et exemples pour AWS
+	- `azure` - modules et exemples pour Azure
+	- `gcp` - modules et exemples pour GCP
 
----
+Raccourci pour démarrer
+- Installer Terraform : voir `docs/INSTALL_TERRAFORM.md`.
+- Choisir la plateforme : aller dans `aws`.
+- Exemple rapide (GCP) :
 
-## Todolist détaillée
+```bash
+# configurer gcloud et le projet
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+export PROJECT_ID=YOUR_PROJECT_ID
 
-### 1. AWS
+cd gcp
+terraform init
+terraform plan -var-file=enable-samples.tfvars -var "project_id=$PROJECT_ID"
+terraform apply -var-file=enable-samples.tfvars -var "project_id=$PROJECT_ID"
+```
 
-- [x] VPC, sous-réseaux publics/privés, IGW, NAT Gateway
-- [ ] Tables de routage, associations
-- [ ] Groupes de sécurité, Network ACL
-- [ ] RDS MySQL Multi-AZ, subnet group, sauvegardes
-- [ ] S3 bucket, versioning, réplication, chiffrement, politique
-- [ ] Application Load Balancer, Target Group, Listener HTTPS, ACM
-- [ ] Auto Scaling Group, Launch Template, User Data
-- [ ] WAF Web ACL, règles managées et personnalisées
-- [ ] IAM rôles, politiques, Identity Center, MFA
-- [ ] AWS Backup plan, monitoring CloudWatch, alarmes
+Pour les autres, il suffit d'aller dans le dossier aws ou azure puis :
 
-### 2. Azure
+```bash
+terraform init
+terraform plan -var-file="var.tfvars"
+terraform apply -var-file="var.tfvars"
+```
 
-- [ ] Resource Group, VNet, sous-réseaux, Bastion
-- [ ] NSG, Azure Firewall
-- [ ] Azure SQL Database, Key Vault
-- [ ] Storage Account, conteneur blob, lifecycle
-- [ ] Application Gateway v2 (WAF), autoscaling, certificat
-- [ ] VMSS, cloud-init, autoscaling
-- [ ] Azure Entra ID, groupes, MFA, Conditional Access
-- [ ] RBAC, Managed Identity, accès Storage/Key Vault
-- [ ] Recovery Services Vault, sauvegarde, monitoring, alertes
+Notes rapides
+- Certains modules (KMS, suppression de comptes de service) exigent des permissions élevées (Owner ou rôles équivalents). Si vous manquez de droits, désactivez `enable_kms` dans les tfvars et réessayez.
+- Les README de chaque module sont disponibles sous `*/modules/*/README.md` — ils sont courts et en français.
 
-### 3. GCP
 
-- [ ] VPC custom, sous-réseaux, Private Google Access
-- [ ] Cloud Router, Cloud NAT
-- [ ] Firewall rules, Cloud Armor (WAF)
-- [ ] Cloud SQL HA, sauvegardes, Secret Manager
-- [ ] Cloud Storage, versioning, lifecycle, KMS
-- [ ] Load Balancer HTTPS, backend, health check, SSL
-- [ ] Managed Instance Group, template, autoscaling
-- [ ] IAM, service accounts, rôles, groupes
-- [ ] Snapshots, backups, monitoring, alertes
 
-### 4. Documentation & Schémas
+Liens utiles
 
-- [ ] Schémas d’architecture (draw.io/Lucidchart)
-- [ ] Documentation technique (réseau, sécurité, IAM, sauvegarde)
-- [ ] Rapport comparatif (services, coûts, complexité, performances)
-
-### 5. Tests & Validation
-
-- [ ] Tests de disponibilité (LB, failover, auto-scaling)
-- [ ] Tests de sécurité (WAF, accès, secrets)
-- [ ] Tests de résilience (panne AZ, restauration)
-- [ ] Tests de monitoring (alertes, logs, métriques)
-
----
-
-## Schéma d’infrastructure
-
-> Voir le fichier `schema-infrastructure.png` ou ouvrez le diagramme sur draw.io/Lucidchart.
+- Configuration de [AWS CLI](https://docs.aws.amazon.com/cli/latest/reference/configure/?utm_source=chatgpt.com)
+- Configuration de [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/get-started-with-azure-cli?view=azure-cli-latest&utm_source=chatgpt.com)
+- Configuratin de [GCP CLI](https://cloud.google.com/sdk/docs/configurations?utm_source=chatgpt.com)
 
 ---
 
@@ -108,22 +82,9 @@ Ce projet vise à déployer une infrastructure web hautement disponible, sécuri
 
 ---
 
-## Rapport comparatif
-
-- Analyse des services équivalents
-- Estimation des coûts
-- Complexité de mise en œuvre
-- Performances observées
-- Recommandations
-
----
-
 ## Notes
 
 - **Full IaC** : Toutes les ressources sont déployées via scripts d’automatisation (Terraform, CloudFormation, Bicep)
 - **Suivi** : Cochez chaque étape au fur et à mesure
 - **Schémas** : Ajoutez vos diagrammes dans le dossier `/docs` ou en pièce jointe
 
----
-
-Bon travail !
