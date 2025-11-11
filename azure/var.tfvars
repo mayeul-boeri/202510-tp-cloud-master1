@@ -1,3 +1,5 @@
+subscription_id = "your-subscription-id-here"
+
 project_name = "tp"
 location     = "francecentral"
 vnet_cidr = "10.1.0.0/16"

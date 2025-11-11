@@ -60,6 +60,7 @@ terraform apply -var-file="var.tfvars"
 ```
 
 Notes rapides
+- Changer le subscription id dans var.tfvars pour azure
 - Certains modules (KMS, suppression de comptes de service) exigent des permissions élevées (Owner ou rôles équivalents). Si vous manquez de droits, désactivez `enable_kms` dans les tfvars et réessayez.
 - Les README de chaque module sont disponibles sous `*/modules/*/README.md` — ils sont courts et en français.
 

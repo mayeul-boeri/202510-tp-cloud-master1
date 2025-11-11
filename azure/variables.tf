@@ -3,6 +3,11 @@ variable "project_name" {
     type        = string
 }
 
+variable "subscription_id" {
+  description = "The Subscription ID where resources will be created."
+  type        = string
+}
+
 variable "location" {
   type = string
 }
